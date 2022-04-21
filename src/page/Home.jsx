@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {
-  editContact,
-  deleteContact,
-  getContactList,
-} from 'redux/contactReducer';
+import { deleteContact, getContactList } from 'redux/contactReducer';
 
 export const Home = () => {
-  const contactList = useSelector(getContactList);
   const [list, setList] = useState([]);
 
+  const contactList = useSelector(getContactList);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,10 +14,10 @@ export const Home = () => {
     setList(contactList);
   }, [contactList]);
 
-  const handlerChangeQuery = e => {
-    e !== ''
+  const handlerChangeQuery = query => {
+    query !== ''
       ? setList(
-          contactList.filter(({ name }) => name.toLowerCase().includes(e))
+          contactList.filter(({ name }) => name.toLowerCase().includes(query))
         )
       : setList(contactList);
   };
@@ -31,7 +27,6 @@ export const Home = () => {
     e.target[0].value = '';
   };
 
-  console.log(list);
   return (
     <>
       <p>PHONE BOOK</p>
@@ -39,9 +34,9 @@ export const Home = () => {
         to="/edit"
         state={{
           title: 'Add contact',
-          plaseHolderName: 'Sebastian Pereiro',
-          plaseHolderEmail: 'vasiya@rus.net',
-          plaseHolderPhone: '000-000-0000',
+          placeHolderName: 'Sebastian Pereiro',
+          placeHolderEmail: 'vasiya@rus.net',
+          placeHolderPhone: '000-000-0000',
         }}
       >
         Add contact...

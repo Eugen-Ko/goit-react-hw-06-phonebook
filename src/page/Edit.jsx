@@ -1,12 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  addContact,
-  editContact,
-  deleteContact,
-  getContactList,
-} from 'redux/contactReducer';
+import { addContact, editContact, getContactList } from 'redux/contactReducer';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 export const Edit = () => {
@@ -16,16 +11,18 @@ export const Edit = () => {
   const { id, title, placeHolderName, placeHolderEmail, placeHolderPhone } =
     location.state;
   let navigate = useNavigate();
-  console.log(location);
 
   return (
     <div>
       <h1>{`${title}`}</h1>
       <Formik
-        initialValues={{ name: '', email: '', phone: '' }}
+        initialValues={{
+          name: id ? placeHolderName : '',
+          email: id ? placeHolderEmail : '',
+          phone: id ? placeHolderPhone : '',
+        }}
         validate={values => {
           const errors = {};
-          console.log(values);
           if (!values.name) {
             errors.name = 'Required';
           } else if (
@@ -49,8 +46,9 @@ export const Edit = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
-          dispatch(addContact(values));
+          !id
+            ? dispatch(addContact(values))
+            : dispatch(editContact({ id, ...values }));
           navigate('/');
         }}
       >
@@ -70,12 +68,7 @@ export const Edit = () => {
               placeholder={`${placeHolderPhone}`}
             />
             <ErrorMessage name="phone" component="div" />
-            <button
-              type="submit"
-              // disabled={isSubmitting}
-            >
-              Submit
-            </button>
+            <button type="submit">Submit</button>
             <button type="button" onClick={() => navigate('/')}>
               Cancel
             </button>

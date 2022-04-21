@@ -22,11 +22,12 @@ const contactSlice = createSlice({
       ];
     },
     editContact(state, { payload }) {
-      const contactIndex = state.value.findIndex(el => el.id === payload);
+      const contactIndex = state.value.findIndex(el => el.id === payload.id);
       state.value[contactIndex] = {
         ...state.value[contactIndex],
-        name: 'qqq',
-        phone: '000-000-0000',
+        name: payload.name,
+        email: payload.email,
+        phone: payload.phone,
       };
     },
     deleteContact(state, { payload }) {
