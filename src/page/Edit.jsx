@@ -1,38 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact, editContact, getContactList } from 'redux/contactReducer';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEditHook } from 'hooks/Hooks';
 
 export const Edit = () => {
   const dispatch = useDispatch();
   const contactList = useSelector(getContactList);
   const location = useLocation();
-
-  console.log(location);
-
   let navigate = useNavigate();
 
-  const params = useParams();
-  const [fields, setFields] = useState(
-    !params?.id
-      ? {
-          id: null,
-          title: `Add Contact : `,
-          name: 'Sebastian Pereiro',
-          email: 'vasiya@rus.net',
-          phone: '000-000-0000',
-        }
-      : {
-          id: params.id,
-          title: `Edit Contact # ${
-            contactList.filter(el => el.id === params.id)[0].name
-          }`,
-          name: contactList.filter(el => el.id === params.id)[0].name,
-          email: contactList.filter(el => el.id === params.id)[0].email,
-          phone: contactList.filter(el => el.id === params.id)[0].phone,
-        }
-  );
+  const fields = useEditHook();
 
   const { id, title, name, email, phone } = fields;
   return (
