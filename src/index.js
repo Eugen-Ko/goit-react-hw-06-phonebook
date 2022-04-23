@@ -5,12 +5,15 @@ import { Provider } from 'react-redux';
 import { App } from 'components/App';
 import { store } from 'redux/store';
 import './index.css';
+import { ChakraProvider } from '@chakra-ui/react';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter basename="/goit-react-hw-06-phonebook">
-        <App />
+        <ChakraProvider>
+          <App />
+        </ChakraProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
