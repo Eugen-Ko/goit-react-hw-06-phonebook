@@ -1,56 +1,47 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { deleteContact, getItemsList } from 'redux/Reducers/itemsSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  changeQuery,
+  deleteContact,
+  getFilterQuery,
+  getItemsList,
+} from 'redux/dataSelector';
 
 export const Home = () => {
   const [list, setList] = useState([]);
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   const contactList = useSelector(getItemsList);
+  const filter = useSelector(getFilterQuery);
   const dispatch = useDispatch();
 
-  const [query, setQuery] = useState(
-    new URLSearchParams(location.search).get('query')
-      ? new URLSearchParams(location.search).get('query')
-      : ''
-  );
-
   useEffect(() => {
-    localStorage.setItem('contact', JSON.stringify(contactList));
-    setList(contactList);
-  }, [contactList]);
+    filter !== ''
+      ? setList(
+          contactList.filter(({ name }) => name.toLowerCase().includes(filter))
+        )
+      : setList(contactList);
+  }, [contactList, filter]);
 
+  useEffect(() => {}, [filter]);
   useEffect(() => {
-    setList(
-      contactList.filter(({ name }) => name.toLowerCase().includes(query))
-    );
-  }, [contactList, query]);
-
-  const handleChange = el => {
-    const queryValue = el.target.value.toLowerCase().trim();
-    setQuery(queryValue);
-    location.search = queryValue;
-    location.search !== ''
-      ? navigate(`?query=${location.search}`)
-      : navigate(`/`);
-  };
+    filter !== '' ? navigate(`?query=${filter}`) : navigate(`/`);
+  }, [filter, navigate]);
 
   return (
     <>
       <p>PHONE BOOK</p>
       <Link to="/edit">Add contact...</Link>
-      {/* <form onSubmit={handlerOnSubmit}> */}
       <input
         type="text"
-        defaultValue={`${query}`}
-        onChange={handleChange}
+        defaultValue={`${filter}`}
+        onChange={e => {
+          dispatch(changeQuery(e.target.value.toLowerCase().trim()));
+        }}
         placeholder="Input search name..."
       />
-      {/* <button type="submit">Find</button> */}
-      {/* </form>  */}
       <ul>
         {list.map(({ id, name, email, phone }) => {
           return (

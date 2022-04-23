@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux';
-import { getItemsList } from 'redux/Reducers/itemsSlice';
+import { getItemsList } from 'redux/dataSelector';
 import { useParams } from 'react-router-dom';
 
 export const useEditHook = () => {
-  const contactList = useSelector(getItemsList);
-
+  const contacts = useSelector(getItemsList);
   const params = useParams();
   const fields = !params?.id
     ? {
@@ -16,9 +15,9 @@ export const useEditHook = () => {
       }
     : {
         title: `Edit Contact # ${
-          contactList.filter(el => el.id === params.id)[0].name
+          contacts.find(el => el.id === params.id).name
         }`,
-        ...contactList.filter(el => el.id === params.id)[0],
+        ...contacts.find(el => el.id === params.id),
       };
   return fields;
 };

@@ -1,18 +1,20 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useEditHook } from 'hooks/Hooks';
 import {
   addContact,
   editContact,
+  changeQuery,
   getItemsList,
-} from 'redux/Reducers/itemsSlice';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useEditHook } from 'hooks/Hooks';
+  getFilterQuery,
+} from 'redux/dataSelector';
 
 export const Edit = () => {
   const dispatch = useDispatch();
-  const contactList = useSelector(getItemsList);
-  const location = useLocation();
+  const contact = useSelector(getItemsList);
+  const filter = useSelector(getFilterQuery);
   let navigate = useNavigate();
 
   const fields = useEditHook();
@@ -32,8 +34,10 @@ export const Edit = () => {
           if (!values.name) {
             errors.name = 'Required';
           } else if (
-            contactList.filter(({ name }) => name === values.name).length !==
-              0 &&
+            contact.filter(
+              ({ name }) =>
+                name.toLowerCase().trim() === values.name.toLowerCase().trim()
+            ).length !== 0 &&
             id === null
           ) {
             errors.name = 'This name is already in the list';
@@ -57,6 +61,7 @@ export const Edit = () => {
           !id
             ? dispatch(addContact(values))
             : dispatch(editContact({ id, ...values }));
+          dispatch(changeQuery(''));
           navigate('/');
         }}
       >
@@ -72,7 +77,7 @@ export const Edit = () => {
             <button
               type="button"
               onClick={() =>
-                location.state?.id ? navigate(-1) : navigate('/')
+                filter !== '' && !filter ? navigate(-1) : navigate('/')
               }
             >
               Cancel
