@@ -1,34 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import {
-  changeQuery,
-  deleteContact,
-  getFilterQuery,
-  getItemsList,
-} from 'redux/dataSelector';
+import { Link } from 'react-router-dom';
+import { changeQuery, deleteContact } from 'redux/dataSelector';
+import { useDispatch } from 'react-redux';
+import { useHomeHook } from 'hooks/Hooks';
 
 export const Home = () => {
-  const [list, setList] = useState([]);
-
-  const navigate = useNavigate();
-
-  const contactList = useSelector(getItemsList);
-  const filter = useSelector(getFilterQuery);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    filter !== ''
-      ? setList(
-          contactList.filter(({ name }) => name.toLowerCase().includes(filter))
-        )
-      : setList(contactList);
-  }, [contactList, filter]);
-
-  useEffect(() => {}, [filter]);
-  useEffect(() => {
-    filter !== '' ? navigate(`?query=${filter}`) : navigate(`/`);
-  }, [filter, navigate]);
+  const { filter, list } = useHomeHook();
 
   return (
     <>

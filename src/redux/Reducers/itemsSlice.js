@@ -21,6 +21,3 @@ export const itemsSlice = createSlice({
     },
   },
 });
-
-// export const itemsReducer = itemsSlice.reducer;
-// export const { addContact, editContact, deleteContact } = itemsSlice.actions;
