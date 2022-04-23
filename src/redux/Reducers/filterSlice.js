@@ -5,7 +5,6 @@ export const filterSlice = createSlice({
   initialState: { value: '' },
   reducers: {
     changeQuery(state, { payload }) {
-      console.log(state, { payload });
       state.value = payload;
     },
   },
