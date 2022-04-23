@@ -5,8 +5,8 @@ import { nanoid } from 'nanoid';
 
 import storage from 'redux-persist/lib/storage';
 
-const contactSlice = createSlice({
-  name: 'contact',
+const itemsSlice = createSlice({
+  name: 'items',
   initialState: { value: contacts },
   reducers: {
     addContact(state, { payload }) {
@@ -37,15 +37,15 @@ const contactSlice = createSlice({
 });
 
 const persistConfig = {
-  key: 'contact',
+  key: 'items',
   storage,
   whitelist: ['value'],
 };
 
-export const contactReducer = persistReducer(
+export const itemsReducer = persistReducer(
   persistConfig,
-  contactSlice.reducer
+  itemsSlice.reducer
 );
 
-export const { addContact, editContact, deleteContact } = contactSlice.actions;
-export const getContactList = state => state.value;
+export const { addContact, editContact, deleteContact } = itemsSlice.actions;
+export const getItemsList = state => state.value;

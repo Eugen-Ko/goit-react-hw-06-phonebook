@@ -1,13 +1,17 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, editContact, getContactList } from 'redux/contactReducer';
+import {
+  addContact,
+  editContact,
+  getItemsList,
+} from 'redux/Reducers/itemsSlice';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEditHook } from 'hooks/Hooks';
 
 export const Edit = () => {
   const dispatch = useDispatch();
-  const contactList = useSelector(getContactList);
+  const contactList = useSelector(getItemsList);
   const location = useLocation();
   let navigate = useNavigate();
 

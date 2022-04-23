@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { deleteContact, getContactList } from 'redux/contactReducer';
+import { deleteContact, getItemsList } from 'redux/Reducers/itemsSlice';
 
 export const Home = () => {
   const [list, setList] = useState([]);
@@ -9,7 +9,7 @@ export const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const contactList = useSelector(getContactList);
+  const contactList = useSelector(getItemsList);
   const dispatch = useDispatch();
 
   const [query, setQuery] = useState(
