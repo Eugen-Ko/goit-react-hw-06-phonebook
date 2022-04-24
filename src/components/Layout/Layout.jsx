@@ -1,20 +1,23 @@
 import { Outlet } from 'react-router-dom';
 import { Container } from '@chakra-ui/react';
+import { Toaster } from 'react-hot-toast';
 
 export const Layout = () => {
   return (
     <>
-      <Container
+      {/* <Container
         p={3}
         maxW="sm"
         bg="#fffdde"
         centerContent
-        borderRadius="lg"
-        borderWidth="3px"
+        borderLeft="3px"
+        borderRight="3px"
+        borderBottom={1}
         borderStyle="ridge"
-      >
-        <Outlet />
-      </Container>
+      > */}
+      <Outlet />
+      <Toaster />
+      {/* </Container> */}
     </>
   );
 };
