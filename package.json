@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-06-phonebook",
+  "name": "goit-react-hw-07-phonebook",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://eugen-ko.github.io/goit-react-hw-06-phonebook/",
+  "homepage": "https://eugen-ko.github.io/goit-react-hw-07-phonebook/",
   "dependencies": {
     "@chakra-ui/react": "^2.0.0-next.0",
     "@emotion/react": "^11.9.0",
